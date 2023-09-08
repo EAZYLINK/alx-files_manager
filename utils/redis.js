@@ -1,4 +1,4 @@
-import { createClient } from "redis";
+import { createClient } from 'redis';
 
 class RedisClient {
     constructor(){
@@ -11,7 +11,7 @@ class RedisClient {
             this.connected = true
         })
     }
-   async isAlive() {
+   isAlive() {
         return this.connected
     }
    async get(key) {

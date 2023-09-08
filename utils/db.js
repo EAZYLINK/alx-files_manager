@@ -15,7 +15,7 @@ class DBClient {
         this.client = new MongoClient(this.url)
         this.client.connect()
     }
-    static isAlive() {
+    isAlive() {
        return this.client.isConnected()
     }
     async nbUsers() {
