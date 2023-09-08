@@ -2,11 +2,17 @@ import { createClient } from "redis";
 
 class RedisClient {
     constructor(){
+        this.connected = false
         this.client = createClient()
-        this.client.on('error', err=>console.log('Redis Client Error', err))
+        this.client.on('error', err=>console.log('Redis Client Error', err),
+        this.connected = false
+        )
+        this.client.on('connect', ()=>{
+            this.connected = true
+        })
     }
    async isAlive() {
-        this.client.connected
+        return this.connected
     }
    async get(key) {
         const value = await this.client.get(key)

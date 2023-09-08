@@ -10,21 +10,16 @@ class DBClient {
     constructor(){
         this.DB_HOST = DB_HOST || 'mongodb://127.0.0.1'
         this.DB_PORT = DB_PORT || 27017
-        this.DATABASE = DATABASE || 'filemanager'
+        this.DATABASE = DATABASE || 'file_manager'
         this.url = `${this.DB_HOST}:${this.DB_PORT}/${this.DATABASE}`
         this.client = new MongoClient(this.url)
+        this.client.connect()
     }
-    async isAlive() {
-       try {
-            await this.client.connect()
-       } catch (error) {
-        console.error('MongoDB Error:', error)
-        return false
-       }
+    static isAlive() {
+       return this.client.isConnected()
     }
     async nbUsers() {
         try {
-            await this.client.connect()
             const db = this.client.db()
             const userCollection = db.collection('users')
             const count = await userCollection.countDocuments()
@@ -36,7 +31,6 @@ class DBClient {
     }
     async nbFiles() {
         try {
-            await this.client.connect()
             const db = this.client.db()
             const filesCollection = db.collection('files')
             const count = await filesCollection.countDocuments()
